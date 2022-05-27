@@ -18,6 +18,15 @@
 Сама установка описана в официальной документации и разбита на следующие действия:
 - сначала в командной строке вводим `wsl` для доступа к установленной подсистеме;
 - затем непостредственно установка - `pip install apache-airflow`;
+- если "по-хорошему" не прошло, то выполняем следующий набор команд для выбора и установки определенной версии:
+  1. export AIRFLOW_HOME=~/airflow
+  2. source ~/.bashrc
+  3. AIRFLOW_VERSION=2.2.3
+  4. PYTHON_VERSION="$(python3 --version | cut -d " " -f 2 | cut -d "." -f 1-2)"
+  5. CONSTRAINT_URL="https://raw.githubusercontent.com/apache/airflow/constraints-${AIRFLOW_VERSION}/constraints-${PYTHON_VERSION}.txt"
+  6. pip3 install "apache-airflow==${AIRFLOW_VERSION}" --constraint "${CONSTRAINT_URL}"
+  7. export PATH=$PATH:~/.local/bin
+  8. source ~/.bashrc
 - инициализация базы данных, по умолчанию sqlite - `airflow db init`;
 - создание пользователя - `airflow users create \
                                --username admin \ 
